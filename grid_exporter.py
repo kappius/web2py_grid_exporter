@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from gluon.sqlhtml import ExportClass
+from gluon.dal import Row
 import cStringIO
 from pyheaderfile import Xls, Xlsx
 
@@ -34,8 +35,10 @@ class ExporterPyheaderfile(ExportClass):
             for row in self.rows:
                 add_dict = dict()
                 # I hate web2py for it... Ugly boy
+
                 for table in row:
-                    if isinstance(table, str):
+                    # if there is just one table
+                    if not isinstance(row[table], Row):
                         column = table
                         table = self.rows.colnames[0].split('.')[0]
                         value = row[column]
